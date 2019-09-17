@@ -7,7 +7,7 @@ class SubMachine(SubFichier):
     Classe pour l'importation des données de Plafonds des Subsides Machines
     """
 
-    cles = ['id_compte', 'ma_mois', 'ma_compte', 'mo_mois', 'mo_compte']
+    cles = ['id_compte', 'm_mois', 'm_compte']
     nom_fichier = "plafmachine.csv"
     libelle = "Plafonds Subsides Machines"
 
@@ -41,16 +41,10 @@ class SubMachine(SubFichier):
                 msg += "le compte id '" + donnee['id_compte'] + "' de la ligne " + str(ligne) +\
                        " n'est pas référencée dans les comptes subisdes\n"
 
-            donnee['ma_mois'], info = Outils.est_un_nombre(donnee['ma_mois'], "le maximum ma mois", ligne)
+            donnee['m_mois'], info = Outils.est_un_nombre(donnee['m_mois'], "le maximum m mois", ligne)
             msg += info
 
-            donnee['mo_mois'], info = Outils.est_un_nombre(donnee['mo_mois'], "le maximum mo mois", ligne)
-            msg += info
-
-            donnee['ma_compte'], info = Outils.est_un_nombre(donnee['ma_compte'], "le maximum ma compte", ligne)
-            msg += info
-
-            donnee['mo_compte'], info = Outils.est_un_nombre(donnee['mo_compte'], "le maximum mo compte", ligne)
+            donnee['m_compte'], info = Outils.est_un_nombre(donnee['m_compte'], "le maximum m compte", ligne)
             msg += info
 
             donnees_dict[donnee['id_compte']] = donnee

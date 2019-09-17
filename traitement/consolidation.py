@@ -85,14 +85,13 @@ class Consolidation(object):
                     id_sub = subcomptes.obtenir_id(nature, type_compte)
                     if id_sub:
                         try:
-                            maj = float(donnee[bilan.cles['maj']])
-                            moj = float(donnee[bilan.cles['moj']])
+                            mj = float(donnee[bilan.cles['mj']])
                             rj = float(donnee[bilan.cles['rabais']])
                         except ValueError:
-                            Outils.affiche_message("Certaines valeurs (maj, moj, rabais) ne sont pas des nombres")
+                            Outils.affiche_message("Certaines valeurs (mj, rabais) ne sont pas des nombres")
                             return 1
-                        maj -= (bj + rj)
-                        mois = {'maj': maj, 'moj': moj}
+                        mj -= (bj + rj)
+                        mois = {'mj': mj}
                         for d3 in subgeneraux.codes_d3():
                             try:
                                 j = float(donnee[bilan.cles[d3 + 'j']])
@@ -148,8 +147,7 @@ class Consolidation(object):
             client['subs'] = 0
             client['bonus'] = 0
             client['codes'] = {}
-            client['subs_ma'] = 0
-            client['subs_mo'] = 0
+            client['subs_m'] = 0
             for d3 in subgeneraux.codes_d3():
                 client['subs_' + d3 + 't'] = 0
             for a, annee in client['annees'].items():
@@ -157,14 +155,10 @@ class Consolidation(object):
                     mois['bj'] = math.ceil(mois['bj'])
                     client['bonus'] += mois['bj']
             for co, compte in client['comptes'].items():
-                compte['mat'] = 0
-                compte['mot'] = 0
-                compte['mat_p'] = 0
-                compte['mot_p'] = 0
-                compte['ma_mois'] = submachines.donnees[compte['id_sub']]['ma_mois']
-                compte['mo_mois'] = submachines.donnees[compte['id_sub']]['mo_mois']
-                compte['ma_compte'] = submachines.donnees[compte['id_sub']]['ma_compte']
-                compte['mo_compte'] = submachines.donnees[compte['id_sub']]['mo_compte']
+                compte['mt'] = 0
+                compte['mt_p'] = 0
+                compte['m_mois'] = submachines.donnees[compte['id_sub']]['m_mois']
+                compte['m_compte'] = submachines.donnees[compte['id_sub']]['m_compte']
                 for d3 in subgeneraux.codes_d3():
                     compte[d3 + 't'] = 0
                     compte[d3 + 't_p'] = 0
@@ -172,20 +166,17 @@ class Consolidation(object):
                     compte[d3 + '_compte'] = subprestations.donnees[compte['id_sub']+d3]['max_compte']
                 for a, annee in compte['annees'].items():
                     for m, mois in annee['mois'].items():
-                        compte['mat'] += mois['maj']
-                        compte['mot'] += mois['moj']
-                        compte['mat_p'] += min(mois['maj'], compte['ma_mois'])
-                        compte['mot_p'] += min(mois['moj'], compte['mo_mois'])
+                        compte['mt'] += mois['mj']
+                        compte['mt_p'] += min(mois['mj'], compte['m_mois'])
                         for d3 in subgeneraux.codes_d3():
                             compte[d3 + 't'] += mois[d3 + 'j']
                             compte[d3 + 't_p'] += min(mois[d3 + 'j'], compte[d3 + '_mois'])
-                compte['s-mat'] = min(compte['mat_p'], compte['ma_compte'])
-                compte['s-mot'] = min(compte['mot_p'], compte['mo_compte'])
-                compte['subs'] = compte['s-mat'] + compte['s-mot']
+                compte['s-mt'] = min(compte['mt_p'], compte['m_compte'])
+                compte['subs'] = compte['s-mt']
                 if compte['t3'] not in client['codes']:
                     client['codes'][compte['t3']] = {'sm': 0}
                 client_t3 = client['codes'][compte['t3']]
-                client_t3['sm'] += compte['s-mat'] + compte['s-mot']
+                client_t3['sm'] += compte['s-mt']
                 for d3 in subgeneraux.codes_d3():
                     compte['s-' + d3 + 't'] = min(compte[d3 + 't_p'], compte[d3 + '_compte'])
                     compte['subs'] += compte['s-' + d3 + 't']
@@ -194,8 +185,7 @@ class Consolidation(object):
                         client_t3['s' + d3] = 0
                     client_t3['s' + d3] += compte['s-' + d3 + 't']
                 client['subs'] += compte['subs']
-                client['subs_ma'] += compte['s-mat']
-                client['subs_mo'] += compte['s-mot']
+                client['subs_m'] += compte['s-mt']
 
         a_effacer = []
         for code, client in self.clients.items():

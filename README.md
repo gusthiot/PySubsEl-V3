@@ -1,4 +1,4 @@
-# PySubsEl-V2
+# PySubsEl-V3
 
 - installer Python 3 (https://www.python.org/downloads/)
     si l'option "rajouter Python au PATH" se présente, la cocher

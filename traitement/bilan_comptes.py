@@ -22,7 +22,7 @@ class BilanComptes(object):
 
             ligne = ["année", "mois", "code client", "code client sap", "abrév. labo", "nom labo", "type client",
                      "nature client", "id-compte", "numéro compte", "intitulé compte", "code type compte",
-                     "code type subside", "Subsides MAj", "Subsides MOj"]
+                     "code type subside", "Subsides Mj"]
             for categorie in subgeneraux.codes_d3():
                 ligne.append("Subsides " + categorie + "j")
             ligne += ["total Subsides"]
@@ -53,7 +53,7 @@ class BilanComptes(object):
                     ligne = [subedition.annee_fin_general, subedition.mois_fin_general, code_client, client['sap'],
                              client['abrev'], client['nom'], client['type'], client['nature'], id_compte,
                              num_compte, compte['intitule'], compte['type'], compte['t3'],
-                             Outils.format_2_dec(compte['s-mat']), Outils.format_2_dec(compte['s-mot'])]
+                             Outils.format_2_dec(compte['s-mt'])]
                     for categorie in subgeneraux.codes_d3():
                         ligne.append(Outils.format_2_dec(compte['s-' + categorie + 't']))
                     ligne += [Outils.format_2_dec(compte['subs'])]

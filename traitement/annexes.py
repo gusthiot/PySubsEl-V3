@@ -159,8 +159,7 @@ class Annexes(object):
                     \hline
                     \multicolumn{%(taille)s}{|c|}{%(numero)s - %(intitule)s - %(type)s} \\*
                     \hline
-                    Année & Mois & \multicolumn{1}{c|}{Machine} & 
-                    \multicolumn{1}{c|}{M.O. op.} 
+                    Année & Mois & \multicolumn{1}{c|}{Coûts Procédés} 
                       ''' % dico_detail_compte
 
                 for article in subgeneraux.articles_d3:
@@ -169,27 +168,22 @@ class Annexes(object):
 
                 for a, annee in sorted(compte['annees'].items()):
                     for m, mois in sorted(annee['mois'].items()):
-                        dico = {'annee': a, 'mois': m, 'maj': Outils.format_2_dec(mois['maj']),
-                                'moj': Outils.format_2_dec(mois['moj'])}
+                        dico = {'annee': a, 'mois': m, 'mj': Outils.format_2_dec(mois['mj'])}
                         contenu_detail_compte += r'''\\*
                             \hline
-                            %(annee)s & %(mois)s & %(maj)s & %(moj)s
+                            %(annee)s & %(mois)s & %(mj)s
                             ''' % dico
                         for d3 in subgeneraux.codes_d3():
                             contenu_detail_compte += r''' & ''' + Outils.format_2_dec(mois[d3 + 'j'])
 
-                dico_detail_compte = {'ma_mois': compte['ma_mois'], 'mo_mois': compte['mo_mois'],
-                                      'ma_compte': compte['ma_compte'], 'mo_compte': compte['mo_compte'],
-                                      'mat': Outils.format_2_dec(compte['mat']),
-                                      'mot': Outils.format_2_dec(compte['mot']),
-                                      'mat_p': Outils.format_2_dec(compte['mat_p']),
-                                      'mot_p': Outils.format_2_dec(compte['mot_p']),
-                                      's-mat': Outils.format_2_dec(compte['s-mat']),
-                                      's-mot': Outils.format_2_dec(compte['s-mot'])}
+                dico_detail_compte = {'m_mois': compte['m_mois'], 'm_compte': compte['m_compte'],
+                                      'mt': Outils.format_2_dec(compte['mt']),
+                                      'mt_p': Outils.format_2_dec(compte['mt_p']),
+                                      's-mt': Outils.format_2_dec(compte['s-mt'])}
 
                 contenu_detail_compte += r'''\\*
                     \hline
-                    \multicolumn{2}{|l|}{Total période} & %(mat)s & %(mot)s
+                    \multicolumn{2}{|l|}{Total période} & %(mt)s
                     ''' % dico_detail_compte
                 for d3 in subgeneraux.codes_d3():
                     contenu_detail_compte += r''' &
@@ -197,7 +191,7 @@ class Annexes(object):
 
                 contenu_detail_compte += r'''\\*
                     \hline
-                    \multicolumn{2}{|l|}{Plafond par mois} & %(ma_mois)s & %(mo_mois)s
+                    \multicolumn{2}{|l|}{Plafond par mois} & %(m_mois)s
                     ''' % dico_detail_compte
                 for d3 in subgeneraux.codes_d3():
                     contenu_detail_compte += r''' &
@@ -205,7 +199,7 @@ class Annexes(object):
 
                 contenu_detail_compte += r'''\\*
                     \hline
-                    \multicolumn{2}{|l|}{Total des montants plafonnés} & %(mat_p)s & %(mot_p)s
+                    \multicolumn{2}{|l|}{Total des montants plafonnés} & %(mt_p)s
                     ''' % dico_detail_compte
                 for d3 in subgeneraux.codes_d3():
                     contenu_detail_compte += r''' &
@@ -213,7 +207,7 @@ class Annexes(object):
 
                 contenu_detail_compte += r'''\\*
                     \hline
-                    \multicolumn{2}{|l|}{Plafond par compte} & %(ma_compte)s & %(mo_compte)s
+                    \multicolumn{2}{|l|}{Plafond par compte} & %(m_compte)s
                     ''' % dico_detail_compte
                 for d3 in subgeneraux.codes_d3():
                     contenu_detail_compte += r''' &
@@ -221,7 +215,7 @@ class Annexes(object):
 
                 contenu_detail_compte += r'''\\*
                     \hline
-                    \multicolumn{2}{|l|}{Subsides} & %(s-mat)s & %(s-mot)s
+                    \multicolumn{2}{|l|}{Subsides} & %(s-mt)s
                     ''' % dico_detail_compte
                 for d3 in subgeneraux.codes_d3():
                     contenu_detail_compte += r''' &

@@ -22,7 +22,7 @@ class BilanMensuel(object):
         with dossier_destination.writer(nom) as fichier_writer:
 
             ligne = ["année", "mois", "code client", "code client sap", "abrév. labo", "nom labo", "type client",
-                     "nature client", "Bonus", "Subsides MAt", "Subsides MOt"]
+                     "nature client", "Bonus", "Subsides Mt"]
             for categorie in subgeneraux.codes_d3():
                 ligne.append("Subsides " + categorie + "t")
             ligne += ["total Subsides"]
@@ -45,7 +45,7 @@ class BilanMensuel(object):
         for code_client, client in sorted(consolidation.clients.items()):
             ligne = [subedition.annee_fin_general, subedition.mois_fin_general, code_client, client['sap'],
                      client['abrev'], client['nom'], client['type'], client['nature'], client['bonus'],
-                     Outils.format_2_dec(client['subs_ma']), Outils.format_2_dec(client['subs_mo'])]
+                     Outils.format_2_dec(client['subs_m'])]
             for categorie in subgeneraux.codes_d3():
                 ligne.append(Outils.format_2_dec(client['subs_' + categorie + 't']))
             ligne += [Outils.format_2_dec(client['subs'])]

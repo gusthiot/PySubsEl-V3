@@ -49,11 +49,9 @@ class Bilan(object):
                 msg += "année ou mois n'est pas valable" + str(position) + "\n"
             position += 1
 
-        # del self.donnees[0]
         self.verifie_date = 1
 
         if msg != "":
-            # msg = self.nom + "\n" + msg
             msg = "L’année et le mois ne correspondent pas à ceux attendus dans " + self.nom
             Outils.affiche_message(msg)
             return 1
